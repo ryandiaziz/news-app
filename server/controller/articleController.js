@@ -1,18 +1,23 @@
+require("dotenv").config();
 const { article } = require("../models");
-const link = "https://newsapi.org/v2/top-headlines?country=us&apiKey=3619749487484be2a65ab98a242a7e55"
+const axios = require('axios');
+const apiKey = process.env.APIKEY
+const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
 // const { decryptPwd } = require("../helper/encrypt");
 // const { tokenGenerator, tokenVerifier } = require("../helper/jsonwebtoken");
 
 class ArticleController {
-    static async getArticles(req, res) {
-        try {
-            // let articles = await article.findAll();
-            // res.status(200).json(articles);
-            res.send("ini article")
-            // res.send("ini user")
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-        }
+    static getArticles(req, res) {
+        axios.get(url)
+            .then(response => {
+                res.json(response.data);
+            })
+            .catch(err => {
+                res.json({
+                    status: "error",
+                    message: err.message,
+                });
+            });
     }
 
 }

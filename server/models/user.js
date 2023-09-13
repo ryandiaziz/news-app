@@ -1,7 +1,9 @@
 'use strict';
+const { encryptPwd } = require('../helper/encrypt')
 const {
   Model
 } = require('sequelize');
+const { use } = require('../routes');
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
     /**
@@ -14,11 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       user.belongsToMany(models.article, { through: models.articleLike });
     }
   }
-  user.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
-  }, {
+  user.init(
+    {
+      name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING
+    }, {
+    hooks: {
+      beforeCreate: (user, option) => {
+        user.password = encryptPwd(user.password)
+      }
+    },
     sequelize,
     modelName: 'user',
   });
