@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const salt = +process.env.SALTROUND
+const salt = +process.env.SALT_ROUND
 
 
 const encryptPwd = data => {

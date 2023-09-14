@@ -1,6 +1,6 @@
 require("dotenv").config();
 const axios = require('axios');
-const apiKey = process.env.APIKEY
+const apiKey = process.env.API_KEY
 const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
 
 class ArticleController {
