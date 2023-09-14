@@ -11,18 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      article.belongsToMany(models.user, { through: models.articleLike });
+      article.belongsToMany(models.user, { through: models.articleLike })
     }
   }
   article.init({
     source: DataTypes.STRING,
     author: DataTypes.STRING,
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    url: DataTypes.STRING,
-    urlToImage: DataTypes.STRING,
+    title: DataTypes.TEXT,
+    description: DataTypes.TEXT,
+    url: DataTypes.TEXT,
+    urlToImage: DataTypes.TEXT,
     publishedAt: DataTypes.STRING,
-    content: DataTypes.STRING
+    content: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'article',

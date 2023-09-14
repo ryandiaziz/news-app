@@ -16,22 +16,22 @@ module.exports = {
         type: Sequelize.STRING
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       url: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       urlToImage: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       publishedAt: {
         type: Sequelize.STRING
       },
       content: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

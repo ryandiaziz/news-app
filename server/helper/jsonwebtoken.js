@@ -3,7 +3,7 @@ const screetCode = process.env.SECRETCODE
 
 
 const tokenGenerator = (data) => {
-    const { id, name, email, imageUrl, age, roleId } = data;
+    const { id, name, email } = data;
     return jwt.sign({
         id: id,
         name: name,
