@@ -1,11 +1,11 @@
 import ResponsiveAppBar from './components/AppBar'
+import MainContent from './components/MainContent'
 
 function App() {
   return (
     <>
-      <div>
-        <ResponsiveAppBar />
-      </div>
+      <ResponsiveAppBar />
+      <MainContent />
     </>
   )
 }
