@@ -12,8 +12,9 @@ import Button from '@mui/material/Button';
 // import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Link } from 'react-router-dom';
 
-const pages = ['All', 'Internasional', 'Nasional', 'Technology'];
+const pages = ['Internasional', 'Nasional'];
 const settings = ['Profile', 'Bookmark', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -38,7 +39,7 @@ function ResponsiveAppBar() {
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: 'white' }}>
-            <Box sx={{ maxWidth: 'xl', mx: 5 }}>
+            <Box sx={{ maxWidth: 'xl', mx: { xs: 1, sm: 5 } }}>
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
                         <img src="/icon/news_color.png" alt="news icon" width={40} />
@@ -128,19 +129,21 @@ function ResponsiveAppBar() {
                             </Button>
                         ))}
                     </Box>
-                    <Box sx={{ flexGrow: 0, ml: 5 }}>
+                    <Box sx={{ ml: { xs: 0, sm: 5 } }}>
                         {/* <Tooltip title="Open menu">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip> */}
-                        <Button variant="outlined" href="#outlined-buttons" sx={{
-                            '&:hover': {
-                                borderColor: 'secondary.main',
-                            }
-                        }}>
-                            <Typography variant='button'>Sign in</Typography>
-                        </Button>
+                        <Link to={'login'}>
+                            <Button variant="outlined" sx={{
+                                '&:hover': {
+                                    borderColor: 'secondary.main',
+                                }
+                            }}>
+                                <Typography variant='button'>Sign in</Typography>
+                            </Button>
+                        </Link>
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"

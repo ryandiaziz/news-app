@@ -2,29 +2,34 @@ import { Box } from "@mui/material"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const SignUpPage = () => {
     return (
-        <Box sx={{ maxWidth: 'xl', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box sx={{
+            maxWidth: 'xl',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
                 bgcolor: 'white',
-                height: 250,
+                height: 350,
                 width: 350,
                 borderRadius: 2,
                 p: 3,
-                boxShadow: 2
+                boxShadow: 2,
+                m: { xs: 2, md: 0 }
             }}>
                 <Typography
                     variant="h6"
                     noWrap
-                    component="a"
-                    href="/"
                     sx={{
                         mr: 2,
-                        display: { xs: 'none', md: 'flex' },
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
@@ -32,9 +37,10 @@ const LoginPage = () => {
                         textDecoration: 'none',
                     }}
                 >
-                    SIGN IN
+                    SIGN UP
                 </Typography>
-                <TextField id="outlined-search" size="small" label="Email" type="search" />
+                <TextField id="outlined-search" size="small" label="Name" type="text" />
+                <TextField id="outlined-search" size="small" label="Email" type="email" />
                 <TextField
                     id="outlined-password-input"
                     size="small"
@@ -42,10 +48,16 @@ const LoginPage = () => {
                     type="password"
                     autoComplete="current-password"
                 />
-                <Button variant="contained">Sign in</Button>
+                <Button variant="contained">Sign up</Button>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Typography sx={{ fontWeight: 'light' }}>Already have an account?</Typography>
+                    <Link to={'../login'}>
+                        <Typography sx={{ cursor: 'pointer' }}> Sign in!</Typography>
+                    </Link>
+                </Box>
             </Box>
         </Box>
     )
 }
 
-export default LoginPage
+export default SignUpPage

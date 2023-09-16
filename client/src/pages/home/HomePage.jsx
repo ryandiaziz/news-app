@@ -1,51 +1,55 @@
 import React from "react";
-import { Box, Typography } from "@mui/material"
-import Slider from "react-slick"
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { getHeadlines } from "../../axios/articles";
-import styled from "@emotion/styled";
+import { Box, Typography, CardMedia, Card, CardContent } from "@mui/material"
+import { getHeadlines } from "../../services/articles.service";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const HomePage = () => {
     const [articles, setArticles] = React.useState([])
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1
-    };
-
-    const ImageSlider = styled(Box)(({
-        backgroundColor: 'green',
-        display: "inline",
-        flexDirection: 'row'
-    }));
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         getHeadlines((result) => {
-            setArticles(result.articles.slice(0, 10))
+            setArticles(result.articles.slice(0, 15))
         })
     }, [])
     return (
         <>
             <Box sx={{ maxWidth: 'xl', mx: 5, mt: 12 }}>
-                <Typography variant="h4" fontWeight={'bold'}>
-                    Headlines
-                </Typography>
-                <Slider {...settings}>
-                    {
-                        articles.map((article, i) => (
-                            <ImageSlider key={i}>
-                                <img src={article.urlToImage} alt="Headlines" height={400} />
-                                <Box>
-                                    <Typography>{article.title}</Typography>
-                                    <Typography variant="caption">{article.content}</Typography>
-                                </Box>
-                            </ImageSlider>
-                        ))
-                    }
-                </Slider>
+                {
+                    articles.length != 0
+                        ? <>
+                            <Typography variant="h4" fontWeight={'bold'}>
+                                Latest News
+                            </Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                {
+                                    articles.map((article, i) => (
+                                        <Card key={i} sx={{ boxShadow: 2 }}>
+                                            <Box sx={{ display: 'flex', }} >
+                                                <CardMedia
+                                                    sx={{ height: 300, width: 1 / 2, borderRadius: 1, m: 2 }}
+                                                    image={article.urlToImage || 'https://placehold.co/600x400?text=Image'}
+                                                    title="Article Image"
+                                                />
+                                                <CardContent sx={{ width: 1 / 2, m: 2, p: 0 }}>
+                                                    <Typography
+                                                        onClick={() => navigate(`/article/${article.source.name}`, { state: { article } })}
+                                                        sx={{ textDecoration: 'none', cursor: 'pointer' }}
+                                                        variant="h5"
+                                                    >{article.title}</Typography>
+                                                    <Typography variant="subtitle2">{article.author || 'author'} - {article.publishedAt}</Typography>
+                                                    <Typography variant="caption">{article.content}</Typography>
+                                                </CardContent>
+                                            </Box>
+                                        </Card>
+                                    ))
+                                }
+                            </Box>
+                        </>
+                        : <Loader />
+                }
+
             </Box>
         </>
     )
