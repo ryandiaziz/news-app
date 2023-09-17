@@ -11,13 +11,7 @@ const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.primary.main, 0.15),
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -34,7 +28,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -55,12 +48,13 @@ const HomePage = () => {
     }, [])
     return (
         <>
-            <Box sx={{ maxWidth: 'xl', mx: 5, mt: 12 }}>
+            <Box sx={{ maxWidth: 'xl', mx: { xs: 2, sm: 5 }, mt: 12 }}>
                 <Box sx={{
-                    py: 10,
-                    width: '50%',
-                    m: 'auto'
+                    pb: 5,
+                    width: { xs: '80%', sm: '60%', md: '40%' },
+                    mx: 'auto',
                 }}>
+                    <Typography variant="h5" fontWeight={'light'} textAlign={'center'} mb={2}>Search News</Typography>
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />

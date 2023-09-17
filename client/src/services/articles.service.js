@@ -1,5 +1,5 @@
 import axios from 'axios'
-const URL = 'http://localhost:3000/api/articles'
+const URL = 'http://localhost:5000/api/articles'
 
 const getHeadlines = async cb => {
     try {

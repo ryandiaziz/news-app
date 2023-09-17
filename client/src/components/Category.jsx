@@ -4,11 +4,11 @@ const Category = () => {
     const categories = ['general', 'business', 'entertainment', 'health', 'science', 'sports', 'technology']
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: { xs: 1, sm: 2 }, flexWrap: 'wrap', mb: 3 }}>
             {
                 categories.map((category, i) => (
                     <Box key={i} sx={{
-                        px: 2,
+                        px: { xs: 1, md: 2 },
                         py: 0.5,
                         borderRadius: 1,
                         boxShadow: 1,
@@ -21,7 +21,7 @@ const Category = () => {
                             borderColor: 'secondary.main'
                         }
                     }}>
-                        <Typography >
+                        <Typography sx={{ fontSize: { xs: 12, sm: 16 } }}>
                             {category}
                         </Typography>
                     </Box>
