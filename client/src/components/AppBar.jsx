@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 // import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Internasional', 'Nasional'];
 const settings = ['Profile', 'Bookmark', 'Logout'];
@@ -20,6 +20,7 @@ const settings = ['Profile', 'Bookmark', 'Logout'];
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const navigate = useNavigate()
 
 
     const handleOpenNavMenu = (event) => {
@@ -29,8 +30,13 @@ function ResponsiveAppBar() {
     //     setAnchorElUser(event.currentTarget);
     // };
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = (page) => {
         setAnchorElNav(null);
+        if (page === 'Internasional') {
+            navigate('/')
+        } else {
+            navigate('/nasional')
+        }
     };
 
     const handleCloseUserMenu = () => {
@@ -92,7 +98,7 @@ function ResponsiveAppBar() {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu} sx={{ color: 'primary.main' }}>
+                                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)} sx={{ color: 'primary.main' }}>
                                     <Typography textAlign="center">{page}</Typography>
                                 </MenuItem>
                             ))}
@@ -122,7 +128,7 @@ function ResponsiveAppBar() {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => handleCloseNavMenu(page)}
                                 sx={{ my: 2, color: 'primary.main', display: 'block' }}
                             >
                                 {page}
