@@ -1,4 +1,4 @@
-const { user } = require("../models");
+const { user } = require("../src/models");
 const { decryptPwd } = require("../helper/encrypt")
 const { tokenGenerator } = require("../helper/jsonwebtoken")
 
