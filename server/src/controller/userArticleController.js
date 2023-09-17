@@ -1,4 +1,4 @@
-const { articleLike, user, article } = require('../src/models');
+const { articleLike, user, article } = require('../models');
 
 class UserArticleController {
     static async getLikedArticles(req, res) {

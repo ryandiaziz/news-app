@@ -1,6 +1,6 @@
 const userRoute = require('express').Router()
-const { UserController } = require("../../controller")
-const { auth } = require('../../middleware/auth')
+const { UserController } = require("../controller")
+const { auth } = require('../middleware/auth')
 
 userRoute.get('/', UserController.getUsers)
 userRoute.post('/', UserController.createUser)
