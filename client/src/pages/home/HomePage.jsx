@@ -1,11 +1,12 @@
 import React from "react";
-import { Box, Typography, CardMedia, Card, CardContent, InputBase } from "@mui/material"
+import { Box, Typography, InputBase } from "@mui/material"
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+
 import { getHeadlines } from "../../services/articles.service";
-import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import Category from "../../components/Category";
+import ArticleCard from "../../components/ArticleCard"
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -39,7 +40,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const HomePage = () => {
     const [articles, setArticles] = React.useState([])
-    const navigate = useNavigate()
 
     React.useEffect(() => {
         getHeadlines((result) => {
