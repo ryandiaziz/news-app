@@ -1,5 +1,5 @@
 import axios from 'axios'
-const URL = 'http://localhost:5000/api/userarticle'
+const URL = 'https://85e2-36-85-109-83.ngrok-free.app/api/userarticle'
 const token = localStorage.getItem('access_token')
 
 const addLikedArticle = async (data, cb) => {

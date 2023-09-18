@@ -1,5 +1,5 @@
 import axios from 'axios'
-const URL = 'http://localhost:5000/api/articles'
+const URL = 'https://85e2-36-85-109-83.ngrok-free.app/api/articles'
 
 const getArticles = async (state, country, category, cb) => {
     try {
