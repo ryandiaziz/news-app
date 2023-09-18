@@ -1,10 +1,25 @@
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import { Box } from "@mui/material"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../../services/auth.service";
 
-const SignUpPage = () => {
+const SignUpPage = ({ loginCbHandler }) => {
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        password: '',
+    })
+
+    const handleSubmit = () => {
+        register(form, loginCbHandler);
+        navigate('/')
+        // console.log(form);
+    }
     return (
         <Box sx={{
             maxWidth: 'xl',
@@ -39,16 +54,17 @@ const SignUpPage = () => {
                 >
                     SIGN UP
                 </Typography>
-                <TextField id="outlined-search" size="small" label="Name" type="text" />
-                <TextField id="outlined-search" size="small" label="Email" type="email" />
+                <TextField id="outlined-search" size="small" label="Name" type="text" onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                <TextField id="outlined-search" size="small" label="Email" type="email" onChange={(e) => setForm({ ...form, email: e.target.value })} />
                 <TextField
                     id="outlined-password-input"
                     size="small"
                     label="Password"
                     type="password"
                     autoComplete="current-password"
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
-                <Button variant="contained">Sign up</Button>
+                <Button onClick={handleSubmit} variant="contained">Sign up</Button>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Typography sx={{ fontWeight: 'light' }}>Already have an account?</Typography>
                     <Link to={'../login'}>

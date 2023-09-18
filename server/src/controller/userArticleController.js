@@ -67,6 +67,7 @@ class UserArticleController {
 
     static async removeLikedArticle(req, res) {
         try {
+
             let userId = req.userData.id;
             const articleId = +req.params.articleId;
 

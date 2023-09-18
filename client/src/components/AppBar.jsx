@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Internasional', 'Nasional'];
-const settings = ['Profile', 'Bookmark', 'Logout'];
+const settings = ['Liked News', 'Logout'];
 
 function ResponsiveAppBar({ loginStatus, loginCbHandler, }) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -51,6 +51,9 @@ function ResponsiveAppBar({ loginStatus, loginCbHandler, }) {
                 loginCbHandler(false)
                 navigate('/')
                 window.location.reload()
+                break;
+            case 'Liked News':
+                navigate('/liked')
                 break;
             default:
         }

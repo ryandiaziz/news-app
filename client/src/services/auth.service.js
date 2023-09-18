@@ -35,7 +35,24 @@ const userAccount = async (cb) => {
     }
 }
 
+const register = async (datas, loginCbHandler) => {
+    try {
+        await axios({
+            method: 'POST',
+            url: URL,
+            data: datas,
+        })
+
+        login({ email: datas.email, password: datas.password }, loginCbHandler)
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+
 export {
     login,
-    userAccount
+    userAccount,
+    register
 }

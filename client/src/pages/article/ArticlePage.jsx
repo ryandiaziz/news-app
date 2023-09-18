@@ -1,25 +1,32 @@
+/* eslint-disable react/prop-types */
 import { Typography, Box, CardMedia, IconButton, Snackbar, Alert } from '@mui/material'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import InsertLinkRoundedIcon from '@mui/icons-material/InsertLinkRounded';
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
 import { useLocation, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
+import { addLikedArticle, removeLikedNews } from '../../services/like.service';
 
 const IconWrapper = styled(Box)(() => ({
     display: 'flex',
     gap: 2,
 }))
 
-const ArticlePage = () => {
+const ArticlePage = ({ loginStatus, }) => {
     const location = useLocation()
+    const navigate = useNavigate()
+    const [isLike, setIsLike] = useState(false)
     const { title } = useParams()
     const [article, setArticle] = useState({})
-    const [open, setOpen] = useState(false);
+    const [copyLink, setCopyLink] = useState(false);
+    const [likeAlert, setLikeAlert] = useState(false)
 
     const handleClick = () => {
         navigator.clipboard.writeText(article.url)
-        setOpen(true);
+        setCopyLink(true);
     };
 
     const handleClose = (event, reason) => {
@@ -27,8 +34,29 @@ const ArticlePage = () => {
             return;
         }
 
-        setOpen(false);
+        setCopyLink(false);
+        setLikeAlert(false);
     };
+
+    const handleLike = () => {
+        if (!loginStatus) {
+            navigate('/login')
+            return
+        }
+        if (article.id) {
+            removeLikedNews(article.id)
+            navigate('/liked')
+            return
+        }
+        article.source = article.source.name
+        addLikedArticle(article, (response) => {
+            console.log(response);
+            if (response.status === 'ok') {
+                setLikeAlert(true);
+                setIsLike(true)
+            }
+        })
+    }
 
     useEffect(() => {
         setArticle(location.state.article)
@@ -37,9 +65,14 @@ const ArticlePage = () => {
 
     return (
         <Box sx={{ maxWidth: 'xl', mx: { xs: 2, sm: 5 }, mt: 12, mb: 10 }}>
-            <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+            <Snackbar open={copyLink} autoHideDuration={1000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" color="info" sx={{ width: '100%' }}>
                     Copied link
+                </Alert>
+            </Snackbar>
+            <Snackbar open={likeAlert} autoHideDuration={1000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" color="info" sx={{ width: '100%' }}>
+                    Liked News
                 </Alert>
             </Snackbar>
             <Typography sx={{
@@ -55,8 +88,11 @@ const ArticlePage = () => {
                 fontWeight: 'light'
             }}>Published {article.publishedAt}</Typography>
             <IconWrapper>
-                <IconButton size='small' aria-label="like" >
-                    <FavoriteBorderIcon />
+                <IconButton size='small' aria-label="like" onClick={handleLike} >
+                    {
+                        isLike ? <FavoriteIcon />
+                            : <FavoriteBorderIcon />
+                    }
                 </IconButton>
                 <IconButton aria-label="share">
                     <InsertLinkRoundedIcon color='secondary.main' onClick={handleClick} />
