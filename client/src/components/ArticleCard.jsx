@@ -25,7 +25,7 @@ const ArticleCard = ({ article }) => {
                 >
                     <Typography
                         onClick={() => navigate(`/article/${article.source.name}`, { state: { article } })}
-                        sx={{ textDecoration: 'none', cursor: 'pointer', fontSize: { xs: 14, sm: 16, md: 18 } }}
+                        sx={{ textDecoration: 'none', cursor: 'pointer', fontSize: { xs: 14, sm: 16, md: 20 } }}
                     >{article.title}</Typography>
                     <Typography
                         sx={{
@@ -33,7 +33,7 @@ const ArticleCard = ({ article }) => {
                             fontWeight: 'light'
                         }}
                     >{article.author || 'author'} - {article.publishedAt}</Typography>
-                    <Typography sx={{ fontSize: { sm: 12, md: 14 }, fontWeight: 'light', display: { xs: 'none', sm: 'block' } }}>{article.content}</Typography>
+                    <Typography sx={{ fontSize: { sm: 12, md: 16 }, fontWeight: 'light', display: { xs: 'none', sm: 'block' } }}>{article.content}</Typography>
                 </CardContent>
             </Box>
         </Card>

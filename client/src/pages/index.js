@@ -3,6 +3,7 @@ import ErrorPage from "./Error/ErrorPage";
 import SignInPage from "./sign in/SignInPage";
 import SignUpPage from "./sign up/SignUpPage";
 import ArticlePage from "./article/ArticlePage";
+import NasionalPage from "./nasional/NasionalPage";
 
 
 export {
@@ -10,5 +11,6 @@ export {
     SignInPage,
     SignUpPage,
     ErrorPage,
-    ArticlePage
+    ArticlePage,
+    NasionalPage
 }

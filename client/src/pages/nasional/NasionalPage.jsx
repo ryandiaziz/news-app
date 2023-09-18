@@ -40,7 +40,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const HomePage = () => {
+const NasionalPage = () => {
     const categories = ['general', 'business', 'entertainment', 'health', 'science', 'sports', 'technology']
     const [articleState, setArticleState] = useState('initial')
     const [search, setSearch] = useState('')
@@ -59,14 +59,14 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        getArticles(setArticleState, 'us', currentCategory, (result) => {
+        getArticles(setArticleState, 'id', currentCategory, (result) => {
             setArticles(result.articles)
         })
     }, [currentCategory])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            searchArticles(setArticleState, 'us', currentCategory, search, (result) => {
+            searchArticles(setArticleState, 'id', currentCategory, search, (result) => {
                 setArticles(result.articles)
             })
         }, 500)
@@ -161,4 +161,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage
+export default NasionalPage

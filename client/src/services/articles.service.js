@@ -1,18 +1,44 @@
 import axios from 'axios'
 const URL = 'http://localhost:5000/api/articles'
 
-const getHeadlines = async cb => {
+const getArticles = async (state, country, category, cb) => {
     try {
+        state('loading')
         let articles = await axios({
             method: 'GET',
-            url: URL
+            url: `${URL}?country=${country}&category=${category}`
         })
-        cb(articles.data);
+        if (articles.data.status === 'ok') {
+            cb(articles.data)
+            state('done')
+        }
+        if (articles.data.status === 'error') {
+            state('error')
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+const searchArticles = async (state, country, category, q, cb) => {
+    try {
+        state('loading')
+        let articles = await axios({
+            method: 'GET',
+            url: `${URL}/search?country=${country}&category=${category}&q=${q}`
+        })
+        if (articles.data.status === 'ok') {
+            cb(articles.data)
+            state('done')
+        }
+        if (articles.data.status === 'error') {
+            state('error')
+        }
     } catch (error) {
         console.log(error);
     }
 }
 
 export {
-    getHeadlines,
+    getArticles,
+    searchArticles
 }
