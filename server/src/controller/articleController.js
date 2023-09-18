@@ -1,10 +1,13 @@
 require("dotenv").config();
 const axios = require('axios');
 const apiKey = process.env.API_KEY
-const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
+const apiUrl = `https://newsapi.org/v2/top-headlines`
 
 class ArticleController {
-    static getArticles(req, res) {
+    static getIntenasional(req, res) {
+        const category = req.query.category
+        const country = req.query.country
+        const url = `${apiUrl}?country=${country}&category=${category}&apiKey=${apiKey}`
         axios.get(url)
             .then(response => {
                 res.json(response.data);
@@ -18,8 +21,10 @@ class ArticleController {
     }
 
     static searchArticles(req, res) {
-        let query = req.query.key
-        const url = `https://newsapi.org/v2/everything?q="${query}"&apiKey=${apiKey}`
+        const category = req.query.category
+        const country = req.query.country
+        const q = req.query.q
+        const url = `${apiUrl}?country=${country}&category=${category}&q=${q}&apiKey=${apiKey}`
         axios.get(url)
             .then(response => {
                 res.json(response.data)
