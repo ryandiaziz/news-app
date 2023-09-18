@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Box, Typography, InputBase, Button } from "@mui/material"
+import { Box, Typography, InputBase } from "@mui/material"
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -41,7 +41,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const HomePage = (props) => {
+const HomePage = () => {
     const categories = ['general', 'business', 'entertainment', 'health', 'science', 'sports', 'technology']
     const [articleState, setArticleState] = useState('initial')
     const [search, setSearch] = useState('')
@@ -56,12 +56,7 @@ const HomePage = (props) => {
 
     const handleSearch = (event) => {
         setSearch(event.target.value);
-        // console.log(event.target.value);
     };
-
-    const handleTest = () => {
-        console.log(props.userData.user.name);
-    }
 
     useEffect(() => {
         getArticles(setArticleState, 'us', currentCategory, (result) => {
@@ -83,7 +78,6 @@ const HomePage = (props) => {
     return (
         <>
             <Box sx={{ maxWidth: 'xl', mx: { xs: 2, sm: 5 }, mt: 12 }}>
-                <Button onClick={handleTest}>TEST</Button>
                 <Box sx={{
                     pb: 5,
                     width: { xs: '80%', sm: '60%', md: '40%' },
