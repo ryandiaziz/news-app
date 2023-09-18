@@ -22,10 +22,19 @@ const ArticlePage = () => {
     }, [title])
 
     return (
-        <Box sx={{ maxWidth: 'lg', mx: 'auto', mt: 12, border: 1 }}>
-            <Typography variant='h4' fontWeight={'bold'} mb={2}>{article.title}</Typography>
-            <Typography fontWeight={'light'}>by {article.author}</Typography>
-            <Typography fontWeight={'light'}>Published {article.publishedAt}</Typography>
+        <Box sx={{ maxWidth: 'xl', mx: { xs: 2, sm: 5 }, mt: 12, mb: 10 }}>
+            <Typography sx={{
+                fontWeight: 'bold',
+                fontSize: { xs: 18, sm: 24, md: 26 },
+            }}>{article.title}</Typography>
+            <Typography sx={{
+                fontSize: { xs: 14, md: 16 },
+                fontWeight: 'light'
+            }}>by {article.author}</Typography>
+            <Typography sx={{
+                fontSize: { xs: 14, md: 16 },
+                fontWeight: 'light'
+            }}>Published {article.publishedAt}</Typography>
             <IconWrapper>
                 <IconButton size='small' aria-label="like">
                     <FavoriteBorderIcon />
@@ -37,8 +46,16 @@ const ArticlePage = () => {
                     <OpenInNewRoundedIcon color='secondary.main' />
                 </IconButton>
             </IconWrapper>
-            <CardMedia sx={{ height: 700, width: '100%', borderRadius: 2, my: 2 }} image={article.urlToImage} title="Article Image" />
-            <Typography>{article.content}</Typography>
+            <CardMedia sx={{
+                height: { xs: 200, sm: 500, md: 700 },
+                width: '100%',
+                borderRadius: 2,
+                my: 2
+            }} image={article.urlToImage} title="Article Image" />
+            <Typography sx={{
+                fontWeight: 'normal',
+                fontSize: { xs: 14, sm: 16, md: 18 },
+            }}>{article.content}</Typography>
         </Box>
     )
 }
