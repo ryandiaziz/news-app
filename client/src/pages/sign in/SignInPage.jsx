@@ -1,10 +1,25 @@
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import { Box } from "@mui/material"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { login } from "../../services/auth.service";
+import { Link, useNavigate } from "react-router-dom";
 
-const SignInPage = () => {
+const SignInPage = ({ loginCbHandler }) => {
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        email: '',
+        password: '',
+    })
+
+    const handleSubmit = () => {
+        login(form, loginCbHandler);
+        navigate('/')
+        // console.log(form);
+    }
+
     return (
         <Box sx={{
             maxWidth: 'xl',
@@ -39,15 +54,22 @@ const SignInPage = () => {
                 >
                     SIGN IN
                 </Typography>
-                <TextField id="outlined-search" size="small" label="Email" type="search" />
+                <TextField
+                    id="outlined-search"
+                    size="small"
+                    label="Email"
+                    type="email"
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
                 <TextField
                     id="outlined-password-input"
                     size="small"
                     label="Password"
                     type="password"
                     autoComplete="current-password"
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
-                <Button variant="contained">Sign in</Button>
+                <Button onClick={handleSubmit} variant="contained">Sign in</Button>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Typography sx={{ fontWeight: 'light' }}>No account?</Typography>
                     <Link to={'../register'}>

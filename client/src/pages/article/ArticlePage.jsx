@@ -38,7 +38,7 @@ const ArticlePage = () => {
     return (
         <Box sx={{ maxWidth: 'xl', mx: { xs: 2, sm: 5 }, mt: 12, mb: 10 }}>
             <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity="success" color="info" sx={{ width: '100%' }}>
                     Copied link
                 </Alert>
             </Snackbar>
