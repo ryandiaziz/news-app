@@ -1,12 +1,20 @@
 /* eslint-disable react/prop-types */
 import { Box, Pagination } from "@mui/material"
+import { useSelector, useDispatch } from "react-redux"
+import { updatepagination } from "../redux/paginationSlice"
 
-const PaginationUI = ({ totalPosts, postPerPage, setCurrentPage }) => {
-    const count = Math.ceil(totalPosts / postPerPage)
+const PaginationUI = () => {
+    const dispatch = useDispatch()
+    const { count } = useSelector(state => state.pagination)
+    const { articles } = useSelector(state => state.article)
+
     const handleChange = (e, p) => {
-        setCurrentPage(p)
-        console.log(count);
+        dispatch(updatepagination({
+            number: p,
+            articles
+        }))
     }
+
     return (
         <Box
             sx={{

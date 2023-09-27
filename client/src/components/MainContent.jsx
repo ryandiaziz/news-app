@@ -1,6 +1,14 @@
 /* eslint-disable react/prop-types */
-import { HomePage, ErrorPage, SignInPage, SignUpPage, ArticlePage, NasionalPage, LikePage } from "../pages"
 import { Routes, Route } from 'react-router-dom'
+import {
+    InternasionalPage,
+    ErrorPage,
+    SignInPage,
+    SignUpPage,
+    ArticlePage,
+    NasionalPage,
+    LikePage
+} from "../pages"
 
 const MainContent = ({ loginStatus, loginCbHandler, userData, }) => {
     return (
@@ -8,7 +16,7 @@ const MainContent = ({ loginStatus, loginCbHandler, userData, }) => {
             <Routes>
                 <Route path="*" element={<ErrorPage />} />
                 <Route path="" element={
-                    <HomePage userData={userData} />} />
+                    <InternasionalPage userData={userData} />} />
                 <Route path="login" element={<SignInPage
                     loginStatus={loginStatus}
                     loginCbHandler={loginCbHandler}

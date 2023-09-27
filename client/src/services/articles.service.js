@@ -1,19 +1,14 @@
 import axios from 'axios'
 const URL = 'https://b994-36-85-109-69.ngrok-free.app/api/articles'
 
-const getArticles = async (state, country, category, cb) => {
+const getArticles = async (country, category) => {
     try {
-        state('loading')
         let articles = await axios({
             method: 'GET',
             url: `${URL}?country=${country}&category=${category}`
         })
         if (articles.data.status === 'ok') {
-            cb(articles.data)
-            state('done')
-        }
-        if (articles.data.status === 'error') {
-            state('error')
+            return articles.data
         }
     } catch (error) {
         console.log(error);

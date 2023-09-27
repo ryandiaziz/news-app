@@ -1,14 +1,16 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
+import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from "react";
 import { Box, Typography, InputBase } from "@mui/material"
 import { styled, alpha } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
+import { useSelector, useDispatch } from "react-redux";
 
-import { getArticles, searchArticles } from "../../services/articles.service";
-import Loader from "../../components/Loader";
-import Category from "../../components/Category";
-import ArticleCard from "../../components/ArticleCard"
-import PaginationUI from "../../components/Pagination";
+import Loader from "../../../components/Loader";
+import Category from "../../../components/Category";
+import ArticleCard from "../../../components/ArticleCard"
+import PaginationUI from "../../../components/Pagination";
+import { fetchArticles, searchArticles } from '../../../redux/articleSlice';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -40,39 +42,40 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const NasionalPage = () => {
+const BodyPage = ({ country }) => {
+    const dispatch = useDispatch()
+    const { loading, error } = useSelector((state) => state.article)
+    const { post } = useSelector(state => state.pagination)
     const categories = ['general', 'business', 'entertainment', 'health', 'science', 'sports', 'technology']
-    const [articleState, setArticleState] = useState('initial')
     const [search, setSearch] = useState('')
-    const [articles, setArticles] = useState([])
     const [currentCategory, setCurrentCategory] = useState('general')
-    const [currentPage, setCurrentPage] = useState(1);
-    const postPerPage = 15
-
-    const lastPostIndex = currentPage * postPerPage;
-    const firstPostPostIndex = lastPostIndex - postPerPage;
-    const currentPosts = articles.slice(firstPostPostIndex, lastPostIndex);
 
     const handleSearch = (event) => {
         setSearch(event.target.value);
-        // console.log(event.target.value);
     };
 
     useEffect(() => {
-        getArticles(setArticleState, 'id', currentCategory, (result) => {
-            setArticles(result.articles)
-        })
+        dispatch(fetchArticles({
+            country,
+            category: currentCategory
+        }))
+
     }, [currentCategory])
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            searchArticles(setArticleState, 'id', currentCategory, search, (result) => {
-                setArticles(result.articles)
-            })
-        }, 500)
+        if (search) {
+            const timeout = setTimeout(() => {
+                console.log("DIJALANKAN");
+                dispatch(searchArticles({
+                    country: 'us',
+                    category: currentCategory,
+                    q: search
+                }))
 
-        return () => {
-            clearTimeout(timeout)
+            }, 500)
+            return () => {
+                clearTimeout(timeout)
+            }
         }
     }, [search]);
     return (
@@ -102,13 +105,10 @@ const NasionalPage = () => {
                     setCurrentCategory={setCurrentCategory}
                 />
                 {
-                    articleState === 'loading'
-                        ?
-                        <Loader />
-                        :
-                        articleState === 'error'
-                            ?
-                            <Box sx={{
+                    loading
+                        ? <Loader />
+                        : error
+                            ? <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
@@ -118,21 +118,8 @@ const NasionalPage = () => {
                                 <Typography variant="h3">Oops!</Typography>
                                 <Typography>Something went wrong</Typography>
                             </Box>
-                            :
-                            currentPosts.length === 0
-                                ?
-                                <Box sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '100vh'
-                                }}>
-                                    <Typography variant="h3">Oops!</Typography>
-                                    <Typography>No articles found</Typography>
-                                </Box>
-                                :
-                                <Box>
+                            : post.length
+                                ? <Box>
                                     <Typography
                                         sx={{
                                             fontWeight: 'bold',
@@ -143,22 +130,27 @@ const NasionalPage = () => {
                                     </Typography>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                         {
-                                            currentPosts.map((article, i) => (
+                                            post.map((article, i) => (
                                                 <ArticleCard key={i} article={article} />
                                             ))
                                         }
                                     </Box>
                                 </Box>
+                                : <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    height: '100vh'
+                                }}>
+                                    <Typography variant="h3">Oops!</Typography>
+                                    <Typography>No articles found</Typography>
+                                </Box>
                 }
-                <PaginationUI
-                    totalPosts={articles.length}
-                    postPerPage={postPerPage}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
-                />
+                <PaginationUI />
             </Box>
         </>
     )
 }
 
-export default NasionalPage
+export default BodyPage
