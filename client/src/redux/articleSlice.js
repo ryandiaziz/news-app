@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { setpagination } from './paginationSlice'
 
-const URL = 'https://b994-36-85-109-69.ngrok-free.app/api/articles'
+const URL = 'https://5120-36-85-109-69.ngrok-free.app/api/articles'
 
 const initialState = {
     loading: false,

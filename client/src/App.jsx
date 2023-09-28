@@ -1,37 +1,34 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchUser } from './redux/authSlice';
 import ResponsiveAppBar from './components/AppBar'
 import MainContent from './components/MainContent'
-import { userAccount } from './services/auth.service';
+import Loader from './components/Loader';
 
 
 function App() {
-  const [loginStatus, setLoginStatus] = useState(false);
-  const [userData, setUserData] = useState([]);
-
-  const loginCbHandler = (result) => {
-    setLoginStatus(result)
-  }
+  const dispatch = useDispatch()
+  const { loadingFetch } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    if (localStorage.getItem('access_token')) {
-      userAccount(result => setUserData(result))
-      setLoginStatus(true)
-    } else {
-      setLoginStatus(false)
+    const token = localStorage.getItem('access_token')
+    if (token) {
+      dispatch(fetchUser(token))
     }
-  }, [loginStatus])
+
+  }, [])
   return (
     <>
-      <ResponsiveAppBar
-        loginStatus={loginStatus}
-        loginCbHandler={loginCbHandler}
-        userData={userData}
-      />
-      <MainContent
-        loginStatus={loginStatus}
-        loginCbHandler={loginCbHandler}
-        userData={userData}
-      />
+      {
+        loadingFetch
+          ? <Loader />
+          : <><ResponsiveAppBar />
+            <MainContent />
+          </>
+      }
+
     </>
   )
 }

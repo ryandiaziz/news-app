@@ -1,24 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@mui/material"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { login } from "../../services/auth.service";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../../redux/authSlice";
 
-const SignInPage = ({ loginCbHandler }) => {
+const SignInPage = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
+    const { isLogin, loadingLogin } = useSelector((state => state.auth))
     const [form, setForm] = useState({
         email: '',
         password: '',
     })
 
     const handleSubmit = () => {
-        login(form, loginCbHandler);
-        navigate('/')
-        // console.log(form);
+        dispatch(login(form))
     }
+
+    useEffect(() => {
+        if (isLogin) {
+            navigate('/')
+        }
+    }, [isLogin])
 
     return (
         <Box sx={{
@@ -69,7 +77,7 @@ const SignInPage = ({ loginCbHandler }) => {
                     autoComplete="current-password"
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
-                <Button onClick={handleSubmit} variant="contained">Sign in</Button>
+                <Button onClick={handleSubmit} variant="contained">{loadingLogin ? 'Loading' : 'Sign in'}</Button>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Typography sx={{ fontWeight: 'light' }}>No account?</Typography>
                     <Link to={'../register'}>

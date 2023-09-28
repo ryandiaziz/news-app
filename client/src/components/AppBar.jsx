@@ -13,14 +13,19 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { logout } from '../redux/authSlice';
 
 const pages = ['Internasional', 'Nasional'];
 const settings = ['Liked News', 'Logout'];
 
-function ResponsiveAppBar({ loginStatus, loginCbHandler, }) {
+function ResponsiveAppBar() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { isLogin } = useSelector((state) => state.auth)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const navigate = useNavigate()
 
 
     const handleOpenNavMenu = (event) => {
@@ -47,10 +52,7 @@ function ResponsiveAppBar({ loginStatus, loginCbHandler, }) {
     const handleClickUserMenu = (menu) => {
         switch (menu) {
             case 'Logout':
-                localStorage.clear()
-                loginCbHandler(false)
-                navigate('/')
-                window.location.reload()
+                dispatch(logout())
                 break;
             case 'Liked News':
                 navigate('/liked')
@@ -59,6 +61,12 @@ function ResponsiveAppBar({ loginStatus, loginCbHandler, }) {
         }
         setAnchorElUser(null);
     }
+
+    React.useEffect(() => {
+        if (!isLogin) {
+            navigate('/')
+        }
+    }, [isLogin])
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: 'white' }}>
@@ -154,7 +162,7 @@ function ResponsiveAppBar({ loginStatus, loginCbHandler, }) {
                     </Box>
                     <Box sx={{ ml: { xs: 0, sm: 5 } }}>
                         {
-                            loginStatus
+                            isLogin
                                 ? <Tooltip title="Open menu">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <AccountCircleRoundedIcon sx={{ fontSize: 40 }} />
