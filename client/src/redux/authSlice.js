@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const URL = 'https://5120-36-85-109-69.ngrok-free.app/api/users'
+const URL = 'https://news-app-api-green.vercel.app/api/users'
 
 const initialState = {
     isLogin: false,
