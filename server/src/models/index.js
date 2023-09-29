@@ -1,5 +1,6 @@
 'use strict';
 
+import * as pg from 'pg';
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

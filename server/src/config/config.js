@@ -1,4 +1,5 @@
 require('dotenv').config()
+import * as pg from 'pg';
 
 module.exports = {
     development: {
@@ -31,6 +32,7 @@ module.exports = {
         port: process.env.POSTGRES_PORT,
         dialect: 'postgres',
         dialectOptions: {
+            module: pg,
             bigNumberStrings: true,
             ssl: {
                 require: true
