@@ -4,12 +4,17 @@ import axios from 'axios'
 const URL = 'https://5120-36-85-109-69.ngrok-free.app/api/users'
 
 const initialState = {
-    loadingLogin: false,
-    loadingFetch: false,
     isLogin: false,
     user: {},
     token: '',
-    error: ''
+    loading: {
+        login: false,
+        fetch: false,
+    },
+    error: {
+        status: false,
+        message: ''
+    },
 }
 
 export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
@@ -25,7 +30,7 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
         thunkAPI.dispatch(fetchUser(access_token))
         return access_token
     } catch (error) {
-        thunkAPI.rejectWithValue(error.message)
+        return thunkAPI.rejectWithValue(error.response.data.message)
     }
 })
 
@@ -53,37 +58,41 @@ const authSlice = createSlice({
             state.token = ''
             state.isLogin = false
             state.user = {}
+        },
+        closealert: (state) => {
+            state.error.status = false
         }
     },
     extraReducers: (builder) => {
         // login
         builder.addCase(login.pending, (state) => {
-            state.loadingLogin = true
+            state.loading.login = true
         })
         builder.addCase(login.fulfilled, (state, action) => {
-            state.loadingLogin = false
+            state.loading.login = false
             state.token = action.payload
             state.isLogin = true
         })
         builder.addCase(login.rejected, (state, action) => {
-            state.loadingLogin = false
-            state.error = action.payload
+            state.loading.login = false
+            state.error.status = true
+            state.error.message = action.payload
         })
         // fetch
         builder.addCase(fetchUser.pending, (state) => {
-            state.loadingFetch = true
+            state.loading.fetch = true
         })
         builder.addCase(fetchUser.fulfilled, (state, action) => {
-            state.loadingFetch = false
+            state.loading.fetch = false
             state.user = action.payload
             state.isLogin = true
         })
         builder.addCase(fetchUser.rejected, (state, action) => {
-            state.loadingFetch = false
-            state.error = action.payload
+            state.loading.fetch = false
+            state.error.message = action.payload
         })
     }
 })
 
 export default authSlice.reducer
-export const { logout } = authSlice.actions
+export const { logout, closealert } = authSlice.actions

@@ -10,7 +10,7 @@ import Loader from './components/Loader';
 
 function App() {
   const dispatch = useDispatch()
-  const { loadingFetch } = useSelector((state) => state.auth)
+  const { loading } = useSelector((state) => state.auth)
 
   useEffect(() => {
     const token = localStorage.getItem('access_token')
@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       {
-        loadingFetch
+        loading.fetch
           ? <Loader />
           : <><ResponsiveAppBar />
             <MainContent />

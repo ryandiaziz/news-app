@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { Box } from "@mui/material"
+import { Box, Snackbar, Alert } from "@mui/material"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../redux/authSlice";
+import { login, closealert } from "../../redux/authSlice";
 
 const SignInPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
-    const { isLogin, loadingLogin } = useSelector((state => state.auth))
+    const { isLogin, loading, error } = useSelector((state => state.auth))
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -21,6 +21,13 @@ const SignInPage = () => {
     const handleSubmit = () => {
         dispatch(login(form))
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        dispatch(closealert())
+    };
 
     useEffect(() => {
         if (isLogin) {
@@ -36,6 +43,11 @@ const SignInPage = () => {
             justifyContent: 'center',
             alignItems: 'center'
         }}>
+            <Snackbar open={error.status} autoHideDuration={1000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" color="info" sx={{ width: '100%' }}>
+                    {error.message}
+                </Alert>
+            </Snackbar>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -77,7 +89,7 @@ const SignInPage = () => {
                     autoComplete="current-password"
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
-                <Button onClick={handleSubmit} variant="contained">{loadingLogin ? 'Loading' : 'Sign in'}</Button>
+                <Button onClick={handleSubmit} variant="contained">{loading.login ? 'Loading' : 'Sign in'}</Button>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Typography sx={{ fontWeight: 'light' }}>No account?</Typography>
                     <Link to={'../register'}>
