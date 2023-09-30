@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { setpagination } from './paginationSlice'
 
-const URL = 'https://news-app-api-green.vercel.app/api/articles'
+const URL = 'https://yonews-api.vercel.app/api/articles'
 
 const initialState = {
     loading: false,
