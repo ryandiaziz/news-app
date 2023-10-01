@@ -1,6 +1,6 @@
 import axios from 'axios'
-// const URL = 'https://yonews-api.vercel.app/api/articles'
-const URL = 'http://localhost:5000/api/articles'
+const URL = 'https://yonews-api.vercel.app/api/articles'
+// const URL = 'http://localhost:5000/api/articles'
 
 const getArticles = async (country, category) => {
     try {

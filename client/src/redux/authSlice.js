@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-// const URL = 'https://yonews-api.vercel.app/api/users'
-const URL = 'http://localhost:5000/api/users'
+const URL = 'https://yonews-api.vercel.app/api/users'
+// const URL = 'http://localhost:5000/api/users'
 
 const initialState = {
     isLogin: false,

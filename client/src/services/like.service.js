@@ -1,6 +1,6 @@
 import axios from 'axios'
-// const URL = 'https://yonews-api.vercel.app/api/userarticle'
-const URL = 'http://localhost:5000/api/userarticle'
+const URL = 'https://yonews-api.vercel.app/api/userarticle'
+// const URL = 'http://localhost:5000/api/userarticle'
 const token = localStorage.getItem('access_token')
 
 const addLikedArticle = async (data, cb) => {
