@@ -1,25 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import { Box } from "@mui/material"
+import { useState, useEffect } from "react";
+import { Box, Snackbar, Alert } from "@mui/material"
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../services/auth.service";
+import { useSelector, useDispatch } from "react-redux";
+import { closealert, createUser } from "../../redux/authSlice";
 
-const SignUpPage = ({ loginCbHandler }) => {
+const SignUpPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const { isLogin, loading, error } = useSelector((state) => state.auth)
     const [form, setForm] = useState({
         name: '',
         email: '',
         password: '',
     })
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        dispatch(closealert())
+    };
+
     const handleSubmit = () => {
-        register(form, loginCbHandler);
-        navigate('/')
-        // console.log(form);
+        dispatch(createUser(form))
     }
+
+    useEffect(() => {
+        if (isLogin) {
+            navigate('/')
+        }
+    }, [isLogin])
     return (
         <Box sx={{
             maxWidth: 'xl',
@@ -28,6 +43,11 @@ const SignUpPage = ({ loginCbHandler }) => {
             justifyContent: 'center',
             alignItems: 'center'
         }}>
+            <Snackbar open={error.status} autoHideDuration={5000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {error.message}
+                </Alert>
+            </Snackbar>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -64,7 +84,7 @@ const SignUpPage = ({ loginCbHandler }) => {
                     autoComplete="current-password"
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
-                <Button onClick={handleSubmit} variant="contained">Sign up</Button>
+                <Button onClick={handleSubmit} variant="contained">{loading.create && loading.login ? 'Loading' : 'Sign up'}</Button>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Typography sx={{ fontWeight: 'light' }}>Already have an account?</Typography>
                     <Link to={'../login'}>

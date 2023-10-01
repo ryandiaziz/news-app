@@ -11,11 +11,12 @@ const initialState = {
     loading: {
         login: false,
         fetch: false,
+        create: false
     },
     error: {
         status: false,
         message: ''
-    },
+    }
 }
 
 export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
@@ -46,7 +47,23 @@ export const fetchUser = createAsyncThunk('auth/fetchUser', async (token, thunkA
         })
         return response.data.user
     } catch (error) {
-        thunkAPI.rejectWithValue(error.message)
+        return thunkAPI.rejectWithValue(error.response.data.message)
+    }
+})
+
+export const createUser = createAsyncThunk('auth/createUser', async (data, thunkAPI) => {
+    try {
+        await axios({
+            method: 'POST',
+            url: URL,
+            data
+        })
+        thunkAPI.dispatch(login({
+            email: data.email,
+            password: data.password
+        }))
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.message)
     }
 })
 
@@ -90,6 +107,18 @@ const authSlice = createSlice({
         })
         builder.addCase(fetchUser.rejected, (state, action) => {
             state.loading.fetch = false
+            state.error.message = action.payload
+        })
+        // create
+        builder.addCase(createUser.pending, (state) => {
+            state.loading.create = true
+        })
+        builder.addCase(createUser.fulfilled, (state) => {
+            state.loading.create = false
+        })
+        builder.addCase(createUser.rejected, (state, action) => {
+            state.loading.create = false
+            state.error.status = true
             state.error.message = action.payload
         })
     }
