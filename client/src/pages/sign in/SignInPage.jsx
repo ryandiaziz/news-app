@@ -43,8 +43,8 @@ const SignInPage = () => {
             justifyContent: 'center',
             alignItems: 'center'
         }}>
-            <Snackbar open={error.status} autoHideDuration={1000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" color="info" sx={{ width: '100%' }}>
+            <Snackbar open={error.status} autoHideDuration={5000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                     {error.message}
                 </Alert>
             </Snackbar>

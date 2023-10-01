@@ -1,5 +1,6 @@
 import axios from 'axios'
-const URL = 'https://yonews-api.vercel.app/api/users'
+// const URL = 'https://yonews-api.vercel.app/api/users'
+const URL = 'http://localhost:5000/api/users'
 const token = localStorage.getItem('access_token')
 
 const login = async (datas, loginCbHandler) => {
