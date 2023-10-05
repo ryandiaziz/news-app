@@ -5,6 +5,7 @@ import SignUpPage from "./sign up/SignUpPage";
 import ArticlePage from "./article/ArticlePage";
 import NasionalPage from "./home/NasionalPage";
 import LikePage from "./like page/LikePage";
+import ProfilePage from "./profile/ProfilePage";
 
 
 export {
@@ -14,5 +15,6 @@ export {
     ErrorPage,
     ArticlePage,
     NasionalPage,
-    LikePage
+    LikePage,
+    ProfilePage
 }

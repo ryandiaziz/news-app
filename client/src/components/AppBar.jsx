@@ -18,12 +18,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
 
 const pages = ['Internasional', 'Nasional'];
-const settings = ['Liked News', 'Logout'];
+const settings = ['Profile', 'Liked News', 'Logout'];
 
 function ResponsiveAppBar() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { isLogin } = useSelector((state) => state.auth)
+    const { isLogin, user } = useSelector((state) => state.auth)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -56,6 +56,9 @@ function ResponsiveAppBar() {
                 break;
             case 'Liked News':
                 navigate('/liked')
+                break;
+            case 'Profile':
+                navigate('/profiles')
                 break;
             default:
         }
@@ -161,7 +164,7 @@ function ResponsiveAppBar() {
                     <Box sx={{ ml: { xs: 0, sm: 5 } }}>
                         {
                             isLogin
-                                ? <Tooltip title="Open menu">
+                                ? <Tooltip title={user.name}>
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <AccountCircleRoundedIcon sx={{ fontSize: 40 }} />
                                     </IconButton>

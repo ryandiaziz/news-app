@@ -7,7 +7,8 @@ import {
     SignUpPage,
     ArticlePage,
     NasionalPage,
-    LikePage
+    LikePage,
+    ProfilePage
 } from "../pages"
 
 const MainContent = () => {
@@ -23,6 +24,7 @@ const MainContent = () => {
                 <Route path="register" element={<SignUpPage />} />
                 <Route path="article/:title" element={<ArticlePage />} />
                 <Route path="liked" element={<LikePage />} />
+                <Route path='profiles' element={<ProfilePage />} />
             </Routes>
         </>
     )
